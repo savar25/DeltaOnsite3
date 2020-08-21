@@ -17,14 +17,16 @@ import android.widget.Button;
 
 public class drawFragment extends Fragment implements paintScreen.DrawListener {
 
-paintScreen pS;
+static paintScreen pS;
 drawListener listener;
 Paint paint;
+Path path;
     private static final String TAG = "drawFragment";
 
-    public drawFragment(Paint paint) {
+    public drawFragment(Context context,Path path,Paint paint) {
         this.paint=paint;
-
+        this.path=path;
+        pS=new paintScreen(context,null,path,paint);
     }
 
 
@@ -33,7 +35,7 @@ Paint paint;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        pS=new paintScreen(getContext(),null,paint);
+
         pS.drawListener=this;
         return pS;
     }
@@ -56,5 +58,23 @@ Paint paint;
 
     public interface drawListener{
         public void onDrawChange(Path path);
+    }
+
+    public Paint getPaint() {
+        return paint;
+    }
+
+    public void setPaint(Paint paint) {
+        this.paint = paint;
+        pS.setBrush(paint);
+    }
+
+    public Path getPath() {
+        return path;
+    }
+
+    public void setPath(Path path) {
+        this.path = path;
+        pS.setPath(path);
     }
 }
